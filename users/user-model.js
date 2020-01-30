@@ -37,11 +37,4 @@ function remove(id) {
                       return user;
                     })
           })
-  // return db('users')
-  //         .where({ id })
-  //         .del()
-  //         .then(() => {
-  //           // console.log(thing); 
-  //           return findBy({ id });
-  //         })
 }

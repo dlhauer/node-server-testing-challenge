@@ -29,9 +29,13 @@ server.post('/api/register', (req, res) => {
 });
 
 server.delete('/api/users/:id', (req, res) => {
-  Users.remove(req.params.id)
-    .then(thing => {
-      res.status(200).json(thing);
+  const id = req.params.id
+  Users.findById(id)
+  .then(user => {
+    if (user) {
+      Users.remove(id)
+    .then(user => {
+      res.status(200).json(user);
     })
     .catch(error => {
       console.log(error);
@@ -39,11 +43,16 @@ server.delete('/api/users/:id', (req, res) => {
         message: 'Error deleting user.'
       });
     });
+    } else {
+      res.status(404).json({message: 'No user with that id'})
+    }
+  })
 });
 
-server.get('/api/users', restricted, (req, res) => {
-  const department = req.user.department;
-  Users.findBy({ department })
+server.get('/api/users', (req, res) => { //Got rid of restricted middleware
+  // const department = req.user.department;
+  // Users.findBy({ department })
+  Users.find()
     .then(users => {
       res.status(200).json(users);
     })
