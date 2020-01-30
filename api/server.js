@@ -28,6 +28,19 @@ server.post('/api/register', (req, res) => {
     });
 });
 
+server.delete('/api/users/:id', (req, res) => {
+  Users.remove(req.params.id)
+    .then(thing => {
+      res.status(200).json(thing);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: 'Error deleting user.'
+      });
+    });
+});
+
 server.get('/api/users', restricted, (req, res) => {
   const department = req.user.department;
   Users.findBy({ department })
